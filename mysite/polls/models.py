@@ -16,6 +16,8 @@ class Choice(models.Model):
         return self.question_text
 
 class myObj(models.Model):
-    myVar = models.CharField(max_length=200)
+    myVar = models.CharField(max_length=200, default="")
+    myOther_var = models.FloatField(default=0.0)
+
 
 
