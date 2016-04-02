@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul>
+    <h2>Development</h2>
+{% for o in latest_log_list %}
+    Log: {{ o.id }}<br/>
+    April {{ o.date_time.day }}
+    <ul>
+        <li>Hours: {{ o.hours }}</li>
+        <li>Date: {{ o.date_time }}</li>
+        <li>Comment: {{o.comment}}</li>
+    </ul>
+{% endfor %}
+    <h2>Gaming</h2>
+</ul>
+</body>
+</html>
