@@ -29,7 +29,7 @@ class LogAdminForm(forms.ModelForm):
     class Media:
         #Alter these paths depending on where you put your media
         js = (
-            'js/mootools-1.2-core-yc.js',
+            'js/MooTools-Core-1.6.0.js',
             'js/log.js',
         )
 

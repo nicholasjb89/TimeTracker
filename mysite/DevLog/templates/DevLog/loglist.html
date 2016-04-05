@@ -1,17 +1,19 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/quickStyle.css' %}">
 </head>
 <body>
-<ul>
+
     {% for log in master %}
         {% ifchanged %}<h2>{{log.category}}</h2>{% endifchanged %}
         {% ifchanged %}<h4 style="margin-left:25px;">{{log.subject}}</h4>{% endifchanged %}
         <p style="margin-left:50px;">{{log.hours}} Hours on {{log.date_time}} -- {{ log.comment }}</p>
     {% endfor %}
 
-</ul>
+
 </body>
 </html>

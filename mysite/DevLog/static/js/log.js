@@ -19,8 +19,10 @@ window.addEvent('domready',function() {
         }
         //cat_id = category.getSelected()[0].value;
         var subcat_id = subject.getSelected()[0].value;
+
         var request = new Request.JSON({
-            url: "/product/subject/"+cat_id+"/",
+            //url: "/product/subject/"+cat_id+"/",
+            url: "/DevLog/subject/"+cat_id+"/",
             onComplete: function(subcats){
                 subject.empty();
                 if (subcats) {
@@ -36,8 +38,8 @@ window.addEvent('domready',function() {
                     });
                 } else {
                     var o = new Element('option', {
-                        'value':'',
-                        'html':'Please Choose A Category First'
+                        'value': '',
+                        'html': 'Please Choose A Category First'
                     });
                     o.inject(subject);
                 }

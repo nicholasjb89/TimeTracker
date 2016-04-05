@@ -5,8 +5,15 @@ from django.core.urlresolvers import reverse
 from django.views import generic
 from .models import Log, Category, Subject
 from django.utils import timezone
+from django.http import HttpResponse
+from django.core import serializers
+
+# Defining a subject category view for json request
+def subject(request, category_id):
+    return HttpResponse(serializers.serialize('json', Subject.objects.filter(category=category_id), fields=('pk','name')))
 
 # Create your views here.
+
 
 class IndexView(generic.ListView):
     #Should display multiple graphs showcasing life long time tracking
