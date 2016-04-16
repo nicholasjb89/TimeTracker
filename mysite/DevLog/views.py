@@ -27,8 +27,48 @@ class LogListView(generic.ListView):
     context_object_name = "master" #this is the variable name to use in templates
 
     def get_queryset(self):
-        """Return the last five published questions."""
+        """Return the last twenty published questions."""
         return Log.objects.order_by('category', '-subject', '-date_time')[:20]
+
+class ChartView(generic.ListView):
+    template_name = "DevLog/chart.html"
+    model = Log
+    context_object_name = "master" # refNameForHTML
+
+    def get_queryset(self):
+        """Django SQL to get data."""
+        logs = Log.objects.filter(category__name__contains="Development").order_by('date_time') # Get all Development logs, ordered by date_time
+            # hours = Log.objects.filter for hours by distinct date... but I don't remember how to do this shit
+
+        # foreach log in logs,
+        # get hours per unique day
+        # return { Date : Hours } to plot on graph Development
+
+        sameDay = logs[0].date_time.day # set to first day
+        hoursInSameDay = 0.0;
+        graphPoints = {}
+        # dictionary[newKey] = value;
+        # 2,3,4,5,6
+
+        labelList = []
+        seriesList = []
+
+
+        #seperate our list of logs into a dictionary of { Unique day : Total Hours }
+        for log in logs:
+            # TODO: Fix this so instead of June 2nd and May 2nd both returning 2 for the key, have them return unique dates for unique keys
+            if sameDay == log.date_time.day:
+               hoursInSameDay += log.hours
+            else:
+                graphPoints[sameDay] = hoursInSameDay # submit
+                sameDay = log.date_time.day # get next day
+                hoursInSameDay = log.hours # reloop
+
+        graphPoints[sameDay] = hoursInSameDay # submit last unique day
+
+
+        return graphPoints #total hours on different days
+
 
 class CategoryGraphView(generic.DetailView):
     #This would display total hours within each Cateogry across a graph

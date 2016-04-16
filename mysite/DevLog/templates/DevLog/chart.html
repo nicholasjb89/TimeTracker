@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% load static from staticfiles %}
+{% static "css/quickChart.css" as myCss %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chart</title>
+    <link rel="stylesheet" type="text/css" href="{{ myCss }}">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+</head>
+<body>
+<h1>Chart</h1>
+<div class="ct-chart ct-perfect-fourth" id="graph1"></div>
+<div class="ct-chart ct-square" id="pieGraph"></div>
+
+
+<script type="text/javascript">
+
+    //var context_var= {{master}};
+    var myLabels = [];
+    var myseries = [];
+    //console.log(context_var);
+
+    //TODO: Optional: Change for backend way
+    {% for point, value in master.items %}
+        //console.log( {{point}} );
+        //console.log( {{value}} );
+        myLabels.push({{point}});
+        myseries.push({{value}});
+    {% endfor %}
+
+    console.log( "labels: " + myLabels );
+    console.log( "series: " + myseries );
+
+
+    var data123 = {
+        labels: myLabels,
+        series: [ myseries ]
+    };
+
+    console.log("data[labels] " + data123["labels"]);
+    console.log("data[series] " + data123["series"]);
+
+   var data = {
+      // A labels array that can contain any sort of values
+      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+      // Our series array that contains series objects or in this case series data arrays
+      series: [ [7, 2, 4, 2, 0], [8, 6, 5, 4, 2] ]
+   };
+
+    // Create a new line chart object where as first parameter we pass in a selector
+    // that is resolving to our chart container element. The Second parameter
+    // is the actual data object.
+       // Simple pie chart example with four series
+    //new Chartist.Pie('#pieGraph', {
+    //  series: [10, 2, 4, 3]
+    //});
+    new Chartist.Line('#graph1', data123);
+</script>
+</body>
+</html>

@@ -1,10 +1,17 @@
-{% load staticfiles %}
 <!DOCTYPE html>
+{% load staticfiles %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="{% static 'css/quickStyle.css' %}">
+    <style>
+        h1 {
+            color: maroon;
+            margin-left: 40px;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -14,6 +21,15 @@
         <p style="margin-left:50px;">{{log.hours}} Hours on {{log.date_time}} -- {{ log.comment }}</p>
     {% endfor %}
 
-
+<h2 style="color:black;text-align:center;">static style</h2>
+<h2 class="myClassName" style="color:black;text-align:center;">Override style</h2>
+<h2 class="myClassName" >class only</h2>
+<p style="text-align:center;">centered</p>
+<p class="center hidden">centered</p>
+<p class="center show">other centered</p>
+<p style="text-align:center;font-size: 24px;text-decoration: underline;">horribly centered</p>
+<div id="sidebar" >
+    <h2>My Sidebar</h2>
+</div>
 </body>
 </html>

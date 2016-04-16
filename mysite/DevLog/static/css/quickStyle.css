@@ -1,3 +1,25 @@
 h2 {
     color: blue;
 }
+
+#sidebar {
+    text-align:center;
+    width: 30%;
+    float:right;
+}
+.myClassName { color: red; }
+
+
+.center {
+    text-align:center;
+    font-size: 24px;
+    text-decoration: underline;
+}
+
+.show {
+    display:block;
+}
+
+.hidden {
+    display:none;
+}

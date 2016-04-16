@@ -121,24 +121,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-#STATIC_ROOT = '/Users/username/Projects/mysite/static/'
-
-#STATIC_URL = '/static/'
-
-
-#STATICFILES_DIRS = (
-#    os.path.join(PROJECT_ROOT, 'mysite/static'),
-#    os.path.join(PROJECT_ROOT, 'mysite/DevLog/static'),
-#)
-
-#STATICFILES_FINDERS = (
-#'django.contrib.staticfiles.finders.FileSystemFinder',
-#'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-##'django.contrib.staticfiles.finders.DefaultStorageFinder',
-#)
-
 STATIC_ROOT = ''
 
 STATIC_URL = '/static/'
 
+# was missing this one
 STATICFILES_DIRS = ( os.path.join('static'), )
