@@ -14,21 +14,14 @@
 <div class="ct-chart ct-perfect-fourth" id="graph1"></div>
 <div class="ct-chart ct-square" id="pieGraph"></div>
 
-
+<h1>{{ master }}</h1>
+<h1>{{ master.labels }}</h1>
+<h1>{{ master.series }}</h1>
 <script type="text/javascript">
 
-    //var context_var= {{master}};
-    var myLabels = [];
-    var myseries = [];
-    //console.log(context_var);
-
-    //TODO: Optional: Change for backend way
-    {% for point, value in master.items %}
-        //console.log( {{point}} );
-        //console.log( {{value}} );
-        myLabels.push({{point}});
-        myseries.push({{value}});
-    {% endfor %}
+    //For dynamic key grabbing you need to use template filters
+    var myLabels = {{ master.labels }};
+    var myseries = {{ master.series }};
 
     console.log( "labels: " + myLabels );
     console.log( "series: " + myseries );
