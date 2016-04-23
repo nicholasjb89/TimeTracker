@@ -7,6 +7,7 @@ from .models import Log, Category, Subject
 from django.utils import timezone
 from django.http import HttpResponse
 from django.core import serializers
+from datetime import datetime
 
 # Defining a subject category view for json request
 def subject(request, category_id):
@@ -37,36 +38,51 @@ class ChartView(generic.ListView):
 
     def get_queryset(self):
         """Django SQL to get data."""
+        return self.day_axis()
+
+    def day_axis(self):
+        """this is for days in the bottom axis of the graph"""
+
         logs = Log.objects.filter(category__name__contains="Development").order_by('date_time') # Get all Development logs, ordered by date_time
 
-        # foreach log in logs,
-        # get hours per unique day
-        # return { Labels of Unique Dates & Series of Total Hours } to plot on the graph
+        dateFormat = "%Y/%m/%d"\
 
-        # init()
-        sameDay = logs[0].date_time.day # set to first day
-        hoursInSameDay = 0.0;
-        labelList = []
-        seriesList = []
+        head = str(logs[0].date_time.year), str(logs[0].date_time.month), str(logs[0].date_time.day)
+        tail = str(logs[len(logs)-1].date_time.year), str(logs[len(logs)-1].date_time.month), str(logs[len(logs)-1].date_time.day)
+        start = datetime.strptime(head[0]+"/"+head[1]+"/"+head[2],dateFormat)
+        end = datetime.strptime(tail[0]+"/"+tail[1]+"/"+tail[2],dateFormat)
+        delta = end - start
+        print(delta.days, "------------------------")
 
+        hoursPerDay = []
+        # labels = [range(delta.days-1)]
+        labels = []
+        for i in range(delta.days):
+            hoursPerDay.append(0)
+            labels.append(i)
 
-        # seperate our list of logs into labels and series for graphing
-        # Labels as Unique day, Series: Total Hours
+        print(len(hoursPerDay))
+
         for log in logs:
-            # TODO: Fix this so instead of June 2nd and May 2nd both returning 2 for the key, have them return unique dates for unique keys
-            if sameDay == log.date_time.day:
-               hoursInSameDay += log.hours
-            else:
-                labelList.append(sameDay) # submit label
-                seriesList.append(hoursInSameDay) # submit series value
-                sameDay = log.date_time.day # get next day
-                hoursInSameDay = log.hours # reloop
+            # find delta day for log
+            # add hours to hoursPerDay[delta]
 
-        labelList.append(sameDay) # submit last unique day
-        seriesList.append(hoursInSameDay) # submit last unique series value
-        print(labelList)
-        graphPoints = {"labels":labelList, "series":seriesList}
-        return graphPoints
+            date = str(log.date_time.year), str(log.date_time.month), str(log.date_time.day)
+            dateDelta = datetime.strptime(date[0]+"/"+date[1]+"/"+date[2],dateFormat) - start
+
+            if dateDelta.days == 0:
+                print("First day: ")
+                hoursPerDay[dateDelta.days] += log.hours
+            else:
+                print(dateDelta.days-1)
+                hoursPerDay[dateDelta.days-1] += log.hours
+
+        return {"labels": labels, "series": hoursPerDay}
+
+    def month_axis(self):
+        """this is for days in the bottom axis of the graph"""
+
+        pass
 
 
 class CategoryGraphView(generic.DetailView):

@@ -12,11 +12,15 @@
 <body>
 <h1>Chart</h1>
 <div class="ct-chart ct-perfect-fourth" id="graph1"></div>
-<div class="ct-chart ct-square" id="pieGraph"></div>
 
-<h1>{{ master }}</h1>
-<h1>{{ master.labels }}</h1>
-<h1>{{ master.series }}</h1>
+<h4>master = {{ master }}</h4>
+<h4>labels = {{ master.labels }}</h4>
+<h4>series = {{ master.series }}</h4>
+
+<h2>Static Chart for double line example</h2>
+<div class="ct-chart ct-square" id="graph2"></div>
+
+
 <script type="text/javascript">
 
     //For dynamic key grabbing you need to use template filters
@@ -27,29 +31,24 @@
     console.log( "series: " + myseries );
 
 
-    var data123 = {
+    var logData = {
         labels: myLabels,
-        series: [ myseries ]
+        series: [ myseries ] //TODO: change mySeries into a multidimensional list, and remove the [ ] here
     };
 
-    console.log("data[labels] " + data123["labels"]);
-    console.log("data[series] " + data123["series"]);
+    console.log("data[labels] " + logData["labels"]);
+    console.log("data[series] " + logData["series"]);
 
    var data = {
       // A labels array that can contain any sort of values
       labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
       // Our series array that contains series objects or in this case series data arrays
-      series: [ [7, 2, 4, 2, 0], [8, 6, 5, 4, 2] ]
+      series: [ [7, 2, 4, 2, 0], [8, 6, 5, 4, 2] ] //Creating individual lines by [ [line data], [line data] ]
    };
 
-    // Create a new line chart object where as first parameter we pass in a selector
-    // that is resolving to our chart container element. The Second parameter
-    // is the actual data object.
-       // Simple pie chart example with four series
-    //new Chartist.Pie('#pieGraph', {
-    //  series: [10, 2, 4, 3]
-    //});
-    new Chartist.Line('#graph1', data123);
+
+    new Chartist.Line('#graph1', logData); //Creating a line graph
+    new Chartist.Line('#graph2', data); //Creating a line graph
 </script>
 </body>
 </html>
