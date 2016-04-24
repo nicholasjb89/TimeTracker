@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% load static from staticfiles %}
 {% static "css/quickChart.css" as myCss %}
+{% static "js/chartist-plugin-zoom.min.js" as myZoom %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{{ myCss }}">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
     <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+    <script src="{{ myZoom }}"></script>
 </head>
 <body>
 <h1>Chart</h1>
@@ -18,7 +20,7 @@
 <h4>series = {{ master.series }}</h4>
 
 <h2>Static Chart for double line example</h2>
-<div class="ct-chart ct-square" id="graph2"></div>
+<!--<div class="ct-chart ct-square" id="graph2"></div>-->
 
 
 <script type="text/javascript">
@@ -30,6 +32,13 @@
     console.log( "labels: " + myLabels );
     console.log( "series: " + myseries );
 
+    for(var i = 0; i < myseries.length ; i++)
+    {
+        if ( myseries[i] == 0 )
+        {
+            myseries[i] = null;
+        }
+    }
 
     var logData = {
         labels: myLabels,
@@ -45,10 +54,32 @@
       // Our series array that contains series objects or in this case series data arrays
       series: [ [7, 2, 4, 2, 0], [8, 6, 5, 4, 2] ] //Creating individual lines by [ [line data], [line data] ]
    };
+var defaultOptions = {
+  onZoom : undefined  // A callback (chart, resetFnc) => void which will be called on zoom.
+                      // resetFnc() will reset zoom.
+};
+var options = {
+  axisX: {
+    type: Chartist.AutoScaleAxis
+  },
+  axisY: {
+    type: Chartist.AutoScaleAxis
+  },
+  plugins: [
+    Chartist.plugins.zoom({
+      onZoom : function(chart, reset) { storeReset(reset); }
+    })
+  ]
+};
 
+//var chart = Chartist.Line('.ct-chart', data, options);
+    var chart2 = new Chartist.Line('#graph1', logData); //Creating a line graph
+    //var chart3 = new Chartist.Line('#graph2', data); //Creating a line graph
+var resetFnc;
+function onZoom(chart, reset) {
+  resetFnc = reset;
+}
 
-    new Chartist.Line('#graph1', logData); //Creating a line graph
-    new Chartist.Line('#graph2', data); //Creating a line graph
 </script>
 </body>
 </html>

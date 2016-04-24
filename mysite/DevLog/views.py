@@ -38,11 +38,6 @@ class ChartView(generic.ListView):
 
     def get_queryset(self):
         """Django SQL to get data."""
-        return self.day_axis()
-
-    def day_axis(self):
-        """this is for days in the bottom axis of the graph"""
-
         logs = Log.objects.filter(category__name__contains="Development").order_by('date_time') # Get all Development logs, ordered by date_time
 
         dateFormat = "%Y/%m/%d"\
@@ -59,7 +54,7 @@ class ChartView(generic.ListView):
         labels = []
         for i in range(delta.days):
             hoursPerDay.append(0)
-            labels.append(i)
+            labels.append(i+1)
 
         print(len(hoursPerDay))
 
@@ -78,11 +73,6 @@ class ChartView(generic.ListView):
                 hoursPerDay[dateDelta.days-1] += log.hours
 
         return {"labels": labels, "series": hoursPerDay}
-
-    def month_axis(self):
-        """this is for days in the bottom axis of the graph"""
-
-        pass
 
 
 class CategoryGraphView(generic.DetailView):
