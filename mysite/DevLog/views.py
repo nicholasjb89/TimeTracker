@@ -20,7 +20,7 @@ class IndexView(generic.ListView):
     #Should display multiple graphs showcasing life long time tracking
     template_name = "DevLog/index.html"
     model = Category
-    pass
+
 
 class LogListView(generic.ListView):
     template_name = "DevLog/loglist.html"
